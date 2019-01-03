@@ -1,0 +1,52 @@
+#brew update
+#brew install postgresql
+
+####### mysql root/root12345 #################
+####### /usr/local/mysql/bin/mysql -u root -p #################
+####### create database sampledb; use sampled #################
+
+#Create the initial database:
+initdb /usr/local/var/postgres
+
+#Start the database server:
+pg_ctl -D /usr/local/var/postgres -l logfile start
+
+#Create the user 'postgres' with super user privileges:
+createuser --superuser=postgres
+
+cd /Library/PostgreSQL/10/bin
+./psql -h localhost -U postgres
+
+Password-postgres
+
+# psql -U postgres
+
+CREATE DATABASE sampledb;
+
+CREATE USER bloguser WITH PASSWORD 'password';
+
+GRANT ALL PRIVILEGES ON DATABASE sampledb to bloguser;
+
+./psql -h localhost -U postgres sampledb
+
+
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO bloguser;
+
+
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO bloguser;
+
+------
+
+Create Table blogger(bloggerid integer PRIMARY KEY,firstname VARCHAR(100) NOT NULL,lastname VARCHAR(100) NOT NULL);
+
+CREATE TABLE blog_details (blogid integer PRIMARY KEY,bloggerid integer REFERENCES blogger (bloggerid),blogtitle VARCHAR(100) NOT NULL);
+
+Insert into blogger values(1,'Rajesh Gudikoti');
+Insert into blogger values(2,'Hemanth H G');
+
+Insert into blog_details values(1,1,'Watson and Java');
+Insert into blog_details values(2,1,'IBM Cloud and Java');
+Insert into blog_details values(3,2,'Spring and Java');
+Insert into blog_details values(4,2,'Angularjs and Java');
+
+
