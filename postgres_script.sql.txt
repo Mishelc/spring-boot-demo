@@ -22,6 +22,7 @@ Password-postgres
 # psql -U postgres
 
 CREATE DATABASE sampledb;
+\connect sampledb --> to switch to sampledb database
 
 CREATE USER bloguser WITH PASSWORD 'password';
 
@@ -49,4 +50,64 @@ Insert into blog_details values(2,1,'IBM Cloud and Java');
 Insert into blog_details values(3,2,'Spring and Java');
 Insert into blog_details values(4,2,'Angularjs and Java');
 
+***********************
+gradle init --type java-application
+Modify build.gradle file to get your dependencies
+./gradlew clean build (gradlew clean build)
+Run Application.class
+
+
+**************
+Create docker file for Postgres
+From docker file path run 
+"docker build -t postgres-9.6-spring-boot-demo ."
+docker images -- to list local docker images
+docker run -p 5434:5432 postgres-9.6-spring-boot-demo
+!!! *** ‘host-port:container-port’ *** if docker is run locally then 5434 corresponds to your local machine !!!
+
+Create docker file for spring boot demo
+From docker file path run 
+"docker build -t spring-boot-demo ."
+docker images -- to list local docker images
+docker run -p 8080:8080 spring-boot-demo *** fails.. it is not able to access postgres database. But image works fine when kubernetes deployment/service is created and deployed application is access by browser.
+
+
+Push image to docker hub
+docker tag postgres-9.6-spring-boot-demo ragudiko/postgres-9.6-spring-boot-demo
+docker push ragudiko/postgres-9.6-spring-boot-demo
+docker tag spring-boot-demo ragudiko/spring-boot-demo
+docker push ragudiko/spring-boot-demo
+
+
+docker ps -a -- list containers
+docker stop a8971f94e428 --> stop container(containerid)
+docker rm 0b5b8537058a ---> remove container(containerid)
+
+docker image rm spring-boot-demo --> remove image
+
+
+----------
+ibmcloud login
+ibmcloud cs region-set ap-south --> set target region
+ibmcloud cs cluster-config mycluster --> set the environment variable and download the 						Kubernetes configuration files 
+
+ibmcloud ks workers mycluster --> get public address/status of your cluster
+
+
+-------
+kubectl create -f deployment.yaml
+kubectl get deployments
+kubectl describe deployment spring-boot-demo
+kubectl logs deployment/spring-boot-demo
+kubectl delete deployment spring-boot-demo
+
+Test
+psql -h 168.1.140.122 -p 30092 -U postgres --password
+http://168.1.140.122:30091/spring-boot/blogger/
+
+kubectl get pods spring-boot-demo -o jsonpath={.spec.containers[*].name}  --> list containers under pod
+kubectl exec spring-boot-demo -- ls (Execute a command in a pod/container)
+kubectl exec -it spring-boot-demo -- /bin/sh --- interactive shell
+OR
+kubectl exec -it spring-boot-demo -- /bin/bash 
 

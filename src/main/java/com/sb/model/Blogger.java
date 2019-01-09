@@ -24,11 +24,35 @@ public class Blogger implements Serializable {
 	@Column(name = "lastname")
 	private String lastName;
 
-	protected Blogger() {
+	public Blogger() {
 	}
 
 	public Blogger(String firstName, String lastName) {
 		this.firstName = firstName;
+		this.lastName = lastName;
+	}
+
+	public long getBloggerid() {
+		return bloggerid;
+	}
+
+	public void setBloggerid(long bloggerid) {
+		this.bloggerid = bloggerid;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
