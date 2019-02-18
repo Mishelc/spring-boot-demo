@@ -1,6 +1,7 @@
 # spring-boot-demo
 
 Most of the java developers know ease of building application using Spring Boot framework. How about ease of deploying spring boot applications on Cloud?
+
 One of friend asked me, can we deploy different application components on cloud? I said yes. 
 He asked me how to you bind these components once they are deployed on cloud(cluster). I mentioned him, the public cluster ip address will be used in configuration just like server ip address (application/database server ip address) in traditional deployment.
 He was building war for backend and deploying it on server.  The services deployed in backend services were invoked by frontend node js application. The database and applications (frontend and backend) were deployed on server on network and URLs were shared to end users.
