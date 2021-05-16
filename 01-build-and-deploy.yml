@@ -6,13 +6,17 @@ pool: Default
 stages:
 - stage: Build
   jobs:
-  - job: FirstJob
+  - job: BuildJob
     steps:
-    - bash: echo Build FirstJob
-    - task: oc-setup@2
+    - bash: docker --version
+    - bash: docker login -u iamapikey -p $(apikey) us.icr.io
+    - task: Docker@2
+      displayName: Build an image
       inputs:
-        connectionType: 'OpenShift Connection Service'
-        openshiftService: 'roks-cluster'
+        repository: 'us.icr.io/azure-demo/java-test:v1'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+    
 - stage: Deploy
 #   variables:
 #     environment: Dev
@@ -21,3 +25,7 @@ stages:
     - job: DevDeployJob
       steps:
       - bash: echo DeployJob
+      - task: oc-setup@2
+        inputs:
+          connectionType: 'OpenShift Connection Service'
+          openshiftService: 'roks-cluster'
