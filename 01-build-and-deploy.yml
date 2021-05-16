@@ -6,13 +6,20 @@ pool: Default
 stages:
 - stage: Build
   jobs:
+  - job: InstallCLIIbmCloud
+    steps:
+    - bash: curl -sL https://raw.githubusercontent.com/IBM-Cloud/ibm-cloud-developer-tools/master/linux-installer/idt-installer | bash
+  - job: LoginToIBMCloud
+    steps:
+    - bash: ibmcloud login --apikey $(apikey)
   - job: BuildJob
     steps:
     - task: DockerInstaller@0
       inputs:
         dockerVersion: '17.09.0-ce'
     - bash: docker --version
-    - bash: sudo docker login -u iamapikey -p $(apikey) us.icr.io
+ #   - bash: sudo docker login -u iamapikey -p $(apikey) us.icr.io
+    - bash: ibmcloud cr login
     - task: Docker@2
       displayName: Build an image
       inputs:
