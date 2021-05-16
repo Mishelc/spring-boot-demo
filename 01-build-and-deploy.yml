@@ -8,6 +8,9 @@ stages:
   jobs:
   - job: BuildJob
     steps:
+    - task: DockerInstaller@0
+      inputs:
+        dockerVersion: '17.09.0-ce'
     - bash: docker --version
     - bash: docker login -u iamapikey -p $(apikey) us.icr.io
     - task: Docker@2
