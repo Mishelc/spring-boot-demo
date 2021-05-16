@@ -16,8 +16,8 @@ stages:
 - stage: Deploy
 #   variables:
 #     environment: Dev
-#   dependsOn: Build
-#   jobs:
-#   - job: DevDeployJob
-#     steps:
-#     - bash: echo $(environment)DeployJob
+  dependsOn: Build
+  jobs:
+    - job: DevDeployJob
+      steps:
+      - bash: echo DeployJob
