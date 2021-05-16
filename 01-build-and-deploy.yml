@@ -8,6 +8,7 @@ stages:
   jobs:
   - job: FirstJob
     steps:
+    - bash: echo Build FirstJob
     - task: oc-setup@2
       inputs:
         connectionType: 'OpenShift Connection Service'
