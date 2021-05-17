@@ -21,6 +21,7 @@ stages:
         dockerVersion: '20.10.5'
     - bash: docker --version
  #   - bash: sudo docker login -u iamapikey -p $(apikey) us.icr.io
+    - bash: ibmcloud plugin install container-registry
     - bash: ibmcloud cr login
     - task: Docker@2
       displayName: Build an image
