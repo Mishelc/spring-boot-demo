@@ -12,7 +12,7 @@ stages:
   - job: LoginToIBMCloud
     dependsOn: InstallCLI
     steps:
-    - bash: ibmcloud login --apikey $(apikey)
+    - bash: ibmcloud login --apikey $(apikey) -r us-south
   - job: BuildJob
     dependsOn: LoginToIBMCloud
     steps:
