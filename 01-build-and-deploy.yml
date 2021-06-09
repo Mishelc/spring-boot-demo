@@ -6,13 +6,6 @@ pool: Default
 stages:
 - stage: Build
   jobs:
-  - job: InstallCLI
-    steps:
-    - bash: curl -fsSL https://clis.cloud.ibm.com/install/linux | sh
-  - job: LoginToIBMCloud
-    dependsOn: InstallCLI
-    steps:
-    - bash: ibmcloud login --apikey $(apikey) -r us-south
   - job: BuildJob
     dependsOn: LoginToIBMCloud
     steps:
@@ -20,15 +13,6 @@ stages:
       inputs:
         dockerVersion: '20.10.5'
     - bash: docker --version
- #   - bash: sudo docker login -u iamapikey -p $(apikey) us.icr.io
-    - bash: ibmcloud plugin install container-registry
-    - bash: ibmcloud cr login
-    - task: Docker@2
-      displayName: Build an image
-      inputs:
-        repository: 'us.icr.io/azure-demo/java-test:v1'
-        command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
     
 - stage: Deploy
 #   variables:
